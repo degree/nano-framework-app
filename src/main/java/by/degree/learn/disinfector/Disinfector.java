@@ -1,15 +1,13 @@
 package by.degree.learn.disinfector;
 
 public class Disinfector {
+    private Enforcer enforcer = new EnforcerImpl();
+
     public void disinfect(Room room) {
         announce("Announce disinfection: leave " + room.getName());
-        enforce();
+        enforcer.enforce();
         doDisinfection(room);
         announce("Announce disinfection complete");
-    }
-
-    private void enforce() {
-        System.out.println("Enforce!");
     }
 
     private void announce(String s) {
