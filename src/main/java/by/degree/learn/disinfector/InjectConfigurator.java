@@ -8,7 +8,7 @@ public class InjectConfigurator implements ObjectConfigurator {
         for (Field field : t.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(Inject.class)) {
                 field.setAccessible(true);
-                Object obj = ObjectFactory.getInstance().create(field.getType());
+                Object obj = ObjectFactory.getInstance().createObject(field.getType());
                 try {
                     field.set(t, obj);
                 } catch (IllegalAccessException e) {
