@@ -7,7 +7,7 @@ public class Disinfector {
         announce("Announce disinfection: leave " + room.getName());
         enforcer.enforce();
         doDisinfection(room);
-        announce("Announce disinfection complete");
+        announce("Announce disinfection: complete " + room.getName());
     }
 
     private void announce(String s) {
