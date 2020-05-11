@@ -1,11 +1,31 @@
 package by.degree.learn.disinfector;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Properties;
+import java.util.stream.Collectors;
 
 public class InjectPropertyConfigurator implements ObjectConfigurator {
 
-    private Map<String, String> properties = Map.of("name", "Dredd");
+    private final Map<String, String> properties;
+
+    public InjectPropertyConfigurator() {
+        InputStream is = getClass().getClassLoader().getResourceAsStream("application.properties");
+        if (is != null) {
+            try {
+                Properties fileProperties = new Properties();
+                fileProperties.load(is);
+                properties = fileProperties.entrySet().stream().collect(Collectors.toMap(e -> e.getKey().toString(), e -> e.getValue().toString()));
+            } catch (IOException e) {
+                throw new RuntimeException("Cannot load properties", e);
+            }
+        } else {
+            properties = Collections.emptyMap();
+        }
+    }
 
     @Override
     public <T> void configure(T t) {
