@@ -1,7 +1,7 @@
 package by.degree.learn.disinfector;
 
 public class Disinfector {
-    private Enforcer enforcer = new EnforcerImpl();
+    private Enforcer enforcer = ObjectFactory.getInstance().create(Enforcer.class);
 
     public void disinfect(Room room) {
         announce("Announce disinfection: leave " + room.getName());
