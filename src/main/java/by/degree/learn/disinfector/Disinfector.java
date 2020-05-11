@@ -17,8 +17,4 @@ public class Disinfector {
     private void doDisinfection(Room room) {
         System.out.println("Disinfecting room " + room.getName());
     }
-
-    public static void main(String[] args) {
-        new Disinfector().disinfect(new Room("laboratory"));
-    }
 }
