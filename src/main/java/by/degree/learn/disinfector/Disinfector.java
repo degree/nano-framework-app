@@ -2,10 +2,22 @@ package by.degree.learn.disinfector;
 
 public class Disinfector {
     public void disinfect(Room room) {
-        System.out.println("Announce disinfection: leave " + room.getName());
+        announce("Announce disinfection: leave " + room.getName());
+        enforce();
+        doDisinfection(room);
+        announce("Announce disinfection complete");
+    }
+
+    private void enforce() {
         System.out.println("Enforce!");
-        System.out.println("Disinfecting root " + room.getName());
-        System.out.println("Announce disinfection complete");
+    }
+
+    private void announce(String s) {
+        System.out.println(s);
+    }
+
+    private void doDisinfection(Room room) {
+        System.out.println("Disinfecting room " + room.getName());
     }
 
     public static void main(String[] args) {
