@@ -33,7 +33,7 @@ public class AnnouncerProxy implements ProxyConfigurer {
 
     private InvocationHandler buildHandler(Object t) {
         return (proxy, method, args) -> {
-            var wrap = method.isAnnotationPresent(Announce.class);
+            var wrap = AnnouncerProxy.hasAnnotation(t.getClass().getMethod(method.getName(), method.getParameterTypes()));
             var render = wrap ? render(args) : null;
             if (wrap) {
                 System.out.println("Announce disinfection: leave " + render);

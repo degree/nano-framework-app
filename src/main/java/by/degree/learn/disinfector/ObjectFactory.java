@@ -1,6 +1,7 @@
 package by.degree.learn.disinfector;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,11 +25,23 @@ public class ObjectFactory {
 
         configure(t);
 
-        // todo support post-construct
+        secondPhase(t, implClass);
 
         t = proxy(t, implClass);
 
         return t;
+    }
+
+    private <T> void secondPhase(T t, Class<T> implClass) {
+        for (Method method : implClass.getMethods()) {
+            if (method.isAnnotationPresent(PostConstruct.class)) {
+                try {
+                    method.invoke(t);
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    throw new RuntimeException("Cannot invoke @PostConstruct on " + implClass + "#" + method.getName(), e);
+                }
+            }
+        }
     }
 
     private <T> T create(Class<T> implClass) {

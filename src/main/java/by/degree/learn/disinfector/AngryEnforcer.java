@@ -9,4 +9,9 @@ public class AngryEnforcer implements Enforcer {
     public void enforce() {
         System.out.println(name + ": get out!");
     }
+
+    @PostConstruct
+    public void init() {
+        System.out.println(name + " is getting angry");
+    }
 }
