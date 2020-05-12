@@ -3,6 +3,7 @@ package by.degree.learn.disinfector;
 import org.reflections.Reflections;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class Config {
 
@@ -12,14 +13,24 @@ public class Config {
         reflections = new Reflections(basePackage);
     }
 
+    private static <T> boolean isPrimary(Class<? extends T> c) {
+        return c.isAnnotationPresent(Primary.class);
+    }
+
     public <T> Class<? extends T> lookupImplementationClass(Class<T> target) {
         Class<? extends T> implClass;
         if (target.isInterface()) {
-            var implementors = reflections.getSubTypesOf(target);
+            var implementors = listImplementations(target);
 
-            // todo support Primary
-            if (implementors.size() != 1) {
-                throw new RuntimeException("Cannot instantiate " + target + ". It is implemented by " + implementors.size() + ". Must be exactly 1.");
+            if (implementors.isEmpty()) {
+                throw new RuntimeException("Cannot instantiate " + target + ". There is no implementations.");
+            } else if (implementors.size() > 1) {
+                implementors = implementors.stream().filter(Config::isPrimary).collect(Collectors.toList());
+                if (implementors.isEmpty()) {
+                    throw new RuntimeException("Cannot instantiate " + target + ". No primary implementation.");
+                } else if (implementors.size() > 1) {
+                    throw new RuntimeException("Cannot instantiate " + target + ". Too many classes with @Primary.");
+                }
             }
 
             implClass = implementors.iterator().next();
