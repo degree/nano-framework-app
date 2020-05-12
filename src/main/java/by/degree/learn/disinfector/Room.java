@@ -10,4 +10,11 @@ public class Room {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

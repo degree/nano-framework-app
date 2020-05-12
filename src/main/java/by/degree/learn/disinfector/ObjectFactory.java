@@ -18,12 +18,18 @@ public class ObjectFactory {
 
     private static final Map<Class, Object> CACHE = new ConcurrentHashMap<>();
 
-    private final List<ObjectConfigurator> configurators;
+    private final List<ObjectConfigurer> objectConfigurators;
+    private final List<ProxyConfigurer> proxyConfigurers;
 
     private ObjectFactory() {
         reflections = new Reflections("by.degree.learn");
-        configurators = reflections.getSubTypesOf(ObjectConfigurator.class).stream()
-                .map((Class<? extends ObjectConfigurator> implClass) -> (ObjectConfigurator) create(implClass)).collect(Collectors.toList());
+        objectConfigurators = load(ObjectConfigurer.class);
+        proxyConfigurers = load(ProxyConfigurer.class);
+    }
+
+    private <T> List<T> load(Class<T> type) {
+        return reflections.getSubTypesOf(type).stream()
+                .map((Class<? extends T> implClass) -> (T) create(implClass)).collect(Collectors.toList());
     }
 
     public <T> T createObject(Class<T> target) {
@@ -37,6 +43,7 @@ public class ObjectFactory {
 
         // todo configure
         configure(t);
+        t = proxy(t, implClass);
 
         // todo support post-construct
 
@@ -73,8 +80,16 @@ public class ObjectFactory {
     }
 
     private <T> void configure(T t) {
-        for (ObjectConfigurator configurator : configurators) {
+        for (ObjectConfigurer configurator : objectConfigurators) {
             configurator.configure(t);
         }
+    }
+
+    private <T> T proxy(T t, Class<? extends T> implClass) {
+        T result = t;
+        for (ProxyConfigurer proxyConfigurer : proxyConfigurers) {
+            result = (T) proxyConfigurer.wrapIfNeeded(t, implClass);
+        }
+        return result;
     }
 }

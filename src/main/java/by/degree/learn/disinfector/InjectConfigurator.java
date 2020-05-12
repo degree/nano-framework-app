@@ -2,7 +2,7 @@ package by.degree.learn.disinfector;
 
 import java.lang.reflect.Field;
 
-public class InjectConfigurator implements ObjectConfigurator {
+public class InjectConfigurator implements ObjectConfigurer {
     @Override
     public <T> void configure(T t) {
         for (Field field : t.getClass().getDeclaredFields()) {

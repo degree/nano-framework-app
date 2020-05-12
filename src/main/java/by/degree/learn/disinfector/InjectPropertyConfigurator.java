@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-public class InjectPropertyConfigurator implements ObjectConfigurator {
+public class InjectPropertyConfigurator implements ObjectConfigurer {
 
     private final Map<String, String> properties;
 

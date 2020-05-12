@@ -1,5 +1,5 @@
 package by.degree.learn.disinfector;
 
-public interface ObjectConfigurator {
+public interface ObjectConfigurer {
     <T> void configure(T t);
 }
