@@ -1,4 +1,6 @@
-package by.degree.learn.disinfector;
+package by.degree.learn.disinfector.infrastructure;
+
+import by.degree.learn.framework.ProxyConfigurer;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

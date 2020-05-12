@@ -1,4 +1,4 @@
-package by.degree.learn.disinfector;
+package by.degree.learn.framework;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

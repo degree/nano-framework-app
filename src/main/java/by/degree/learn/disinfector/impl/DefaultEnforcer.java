@@ -1,4 +1,7 @@
-package by.degree.learn.disinfector;
+package by.degree.learn.disinfector.impl;
+
+import by.degree.learn.disinfector.model.Enforcer;
+import by.degree.learn.framework.InjectProperty;
 
 public class DefaultEnforcer implements Enforcer {
 

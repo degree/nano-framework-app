@@ -1,4 +1,4 @@
-package by.degree.learn.disinfector;
+package by.degree.learn.framework;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

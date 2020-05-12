@@ -1,4 +1,4 @@
-package by.degree.learn.disinfector;
+package by.degree.learn.disinfector.model;
 
 public class Room {
     private final String name;

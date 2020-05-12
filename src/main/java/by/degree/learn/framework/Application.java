@@ -1,4 +1,4 @@
-package by.degree.learn.disinfector;
+package by.degree.learn.framework;
 
 public class Application {
 
