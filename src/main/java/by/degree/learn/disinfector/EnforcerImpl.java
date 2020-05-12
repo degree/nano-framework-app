@@ -2,7 +2,7 @@ package by.degree.learn.disinfector;
 
 public class EnforcerImpl implements Enforcer {
 
-    @InjectProperty
+    @InjectProperty("enforcer.name")
     private String name;
 
     @Override
