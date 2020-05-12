@@ -41,7 +41,6 @@ public class ObjectFactory {
 
         T t = create(implClass);
 
-        // todo configure
         configure(t);
         t = proxy(t, implClass);
 
