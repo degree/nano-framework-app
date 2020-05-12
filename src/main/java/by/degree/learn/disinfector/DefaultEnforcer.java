@@ -1,8 +1,8 @@
 package by.degree.learn.disinfector;
 
-public class EnforcerImpl implements Enforcer {
+public class DefaultEnforcer implements Enforcer {
 
-    @InjectProperty("enforcer.name")
+    @InjectProperty("enforcer.default.name")
     private String name;
 
     @Override
