@@ -21,8 +21,9 @@ public class Context {
 
         T object = factory.createObject(implClass);
 
-        // todo implement singleton
-        CACHE.put(target, object);
+        if (implClass.isAnnotationPresent(Singleton.class)) {
+            CACHE.put(target, object);
+        }
 
         return object;
     }

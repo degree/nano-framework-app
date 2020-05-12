@@ -1,5 +1,6 @@
 package by.degree.learn.disinfector;
 
+@Singleton
 public class DisinfectorImpl implements Disinfector {
     @Inject
     private Enforcer enforcer;
