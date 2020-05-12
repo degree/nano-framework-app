@@ -28,7 +28,7 @@ public class InjectPropertyConfigurator implements ObjectConfigurer {
     }
 
     @Override
-    public <T> void configure(T t) {
+    public <T> void configure(T t, Context context) {
         for (Field field : t.getClass().getDeclaredFields()) {
             InjectProperty annotation = field.getDeclaredAnnotation(InjectProperty.class);
             if (annotation != null) {

@@ -7,6 +7,14 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class AnnouncerProxy implements ProxyConfigurer {
+    private static boolean hasAnnotation(Method method) {
+        return method.isAnnotationPresent(Announce.class);
+    }
+
+    private static String render(Object... args) {
+        return Arrays.stream(args).map(Object::toString).collect(Collectors.joining(", "));
+    }
+
     @Override
     public Object wrapIfNeeded(Object t, Class implClass) {
 
@@ -23,27 +31,20 @@ public class AnnouncerProxy implements ProxyConfigurer {
         }
     }
 
-    private static boolean hasAnnotation(Method method) {
-        return method.isAnnotationPresent(Announce.class);
-    }
-
     private InvocationHandler buildHandler(Object t) {
         return (proxy, method, args) -> {
-            boolean wrap = method.isAnnotationPresent(Announce.class);
+            var wrap = method.isAnnotationPresent(Announce.class);
+            var render = wrap ? render(args) : null;
             if (wrap) {
-                System.out.println("Announce disinfection: leave " + render(args));
+                System.out.println("Announce disinfection: leave " + render);
             }
 
-            Object result = method.invoke(t, args);
+            var result = method.invoke(t, args);
 
             if (wrap) {
-                System.out.println("Announce disinfection: complete " + render(args));
+                System.out.println("Announce disinfection: complete " + render);
             }
             return result;
         };
-    }
-
-    private static String render(Object... args) {
-        return Arrays.stream(args).map(Object::toString).collect(Collectors.joining(", "));
     }
 }
