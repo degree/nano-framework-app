@@ -32,6 +32,7 @@ public class JavaConfig implements Config {
                 Stream.of(annotation),
                 Stream.of(annotation.annotationType().getAnnotations())
                         .filter(a -> !a.annotationType().isAnnotationPresent(a.annotationType()))
+                        .filter(a -> !a.annotationType().getPackageName().startsWith("java.lang.annotation"))
                         .flatMap(this::flatten)
         );
     }
