@@ -5,6 +5,7 @@ import org.reflections.Reflections;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,15 +17,15 @@ public class JavaConfig implements Config {
         reflections = new Reflections(basePackage);
     }
 
-    <T> boolean isPrimary(Class<? extends T> c) {
-        return c.isAnnotationPresent(Primary.class);
+    <T> boolean isPrimary(Class<? extends T> aClass) {
+        return hasPrimaryAnnotation(aClass) || hasMetaAnnotation(aClass, this::hasPrimaryAnnotation);
     }
 
-    <T> boolean hasMetaAnnotation(Class<? extends T> c) {
+    <T> boolean hasMetaAnnotation(Class<? extends T> c, Predicate<Class<? extends Annotation>> hasAnnotation) {
         return Arrays.stream(c.getAnnotations())
                 .flatMap(this::flatten)
                 .map(Annotation::annotationType)
-                .anyMatch(this::hasComponentAnnotation);
+                .anyMatch(hasAnnotation);
     }
 
     Stream<Annotation> flatten(Annotation annotation) {
@@ -38,17 +39,25 @@ public class JavaConfig implements Config {
     }
 
     @Override
-    public <T> boolean isSingleton(Class<? extends T> c) {
-        return c.isAnnotationPresent(Singleton.class);
+    public <T> boolean isSingleton(Class<? extends T> aClass) {
+        return hasSingletonAnnotation(aClass) || hasMetaAnnotation(aClass, this::hasSingletonAnnotation);
     }
 
     @Override
     public <T> boolean isComponent(Class<? extends T> aClass) {
-        return hasComponentAnnotation(aClass) || hasMetaAnnotation(aClass);
+        return hasComponentAnnotation(aClass) || hasMetaAnnotation(aClass, this::hasComponentAnnotation);
     }
 
     private <T> boolean hasComponentAnnotation(Class<? extends T> cl) {
         return cl.isAnnotationPresent(Component.class);
+    }
+
+    private <T> boolean hasSingletonAnnotation(Class<? extends T> cl) {
+        return cl.isAnnotationPresent(Singleton.class);
+    }
+
+    private <T> boolean hasPrimaryAnnotation(Class<? extends T> c) {
+        return c.isAnnotationPresent(Primary.class);
     }
 
     @Override
