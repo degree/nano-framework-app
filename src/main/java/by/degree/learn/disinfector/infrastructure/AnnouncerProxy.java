@@ -1,6 +1,5 @@
 package by.degree.learn.disinfector.infrastructure;
 
-import by.degree.learn.solid.framework.Component;
 import by.degree.learn.solid.framework.ProxyConfigurer;
 
 import java.lang.reflect.InvocationHandler;
@@ -9,7 +8,6 @@ import java.lang.reflect.Proxy;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-@Component
 public class AnnouncerProxy implements ProxyConfigurer {
     private static boolean hasAnnotation(Method method) {
         return method.isAnnotationPresent(Announce.class);
