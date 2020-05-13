@@ -11,10 +11,12 @@ import java.util.stream.Stream;
 
 public class JavaConfig implements Config {
 
-    private final Reflections reflections;
+    private final Reflections framework;
+    private final Reflections application;
 
     public JavaConfig(String basePackage) {
-        reflections = new Reflections(basePackage);
+        framework = new Reflections("by.degree.learn.framework");
+        application = new Reflections(basePackage);
     }
 
     <T> boolean isPrimary(Class<? extends T> aClass) {
@@ -88,11 +90,12 @@ public class JavaConfig implements Config {
 
     @Override
     public <T> Collection<Class<? extends T>> listImplementations(Class<T> type) {
-        return Stream.concat(
-                Stream.of(type),
-                reflections.getSubTypesOf(type).stream()
-        )
-                .filter(this::isComponent)
-                .collect(Collectors.toList());
+        var builder = Stream.<Class<? extends T>>builder();
+        if (!type.isInterface() && isComponent(type)) {
+            builder.accept(type);
+        }
+        framework.getSubTypesOf(type).forEach(builder);
+        application.getSubTypesOf(type).stream().filter(this::isComponent).forEach(builder);
+        return builder.build().collect(Collectors.toList());
     }
 }
