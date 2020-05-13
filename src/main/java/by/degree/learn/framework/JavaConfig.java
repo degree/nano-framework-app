@@ -5,7 +5,6 @@ import org.reflections.Reflections;
 import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,12 +24,16 @@ public class JavaConfig implements Config {
         return Arrays.stream(c.getAnnotations())
                 .flatMap(this::flatten)
                 .map(Annotation::annotationType)
-                .anyMatch(annotation -> annotation.isAnnotationPresent(Component.class));
+                .anyMatch(this::hasComponentAnnotation);
     }
 
     Stream<Annotation> flatten(Annotation annotation) {
-        return Stream.concat(Stream.of(annotation), Stream.of(annotation.annotationType().getAnnotations()));
-//        return Stream.concat(Stream.of(annotation), Stream.of(annotation.annotationType().getAnnotations()).flatMap(this::flatten));
+        return Stream.concat(
+                Stream.of(annotation),
+                Stream.of(annotation.annotationType().getAnnotations())
+                        .filter(a -> !a.annotationType().isAnnotationPresent(a.annotationType()))
+                        .flatMap(this::flatten)
+        );
     }
 
     @Override
@@ -39,14 +42,8 @@ public class JavaConfig implements Config {
     }
 
     @Override
-    public <T> boolean isComponent(Class<? extends T> c) {
-        return Stream.<Predicate<Class<? extends T>>>of(
-                this::hasComponentAnnotation,
-                this::isSingleton,
-                this::isPrimary,
-                this::hasMetaAnnotation
-        )
-                .anyMatch(f -> f.test(c));
+    public <T> boolean isComponent(Class<? extends T> aClass) {
+        return hasComponentAnnotation(aClass) || hasMetaAnnotation(aClass);
     }
 
     private <T> boolean hasComponentAnnotation(Class<? extends T> cl) {

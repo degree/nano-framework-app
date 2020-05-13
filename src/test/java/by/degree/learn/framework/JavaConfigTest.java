@@ -32,6 +32,11 @@ class JavaConfigTest {
 
     @Test
     void myComponentIsComponent() {
-        assertTrue(config.isComponent(TestMyComponent.class), "Class annotated with annotation with @Component must be treated as component");
+        assertTrue(config.isComponent(TestMyComponent.class), "Class annotated with meta-annotation with @Component must be treated as component");
+    }
+
+    @Test
+    void myMetaComponentIsComponent() {
+        assertTrue(config.isComponent(TestMyMetaComponent.class), "Class annotated with meta-annotation with @Component must be treated as component");
     }
 }
