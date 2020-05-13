@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Context {
+    @SuppressWarnings("rawtypes")
     private final Map<Class, Object> CACHE = new ConcurrentHashMap<>();
     private final Config config;
     private ObjectFactory factory;
@@ -14,6 +15,7 @@ public class Context {
 
     public <T> T getObject(Class<T> target) {
         if (CACHE.containsKey(target)) {
+            //noinspection unchecked
             return (T) CACHE.get(target);
         }
 
@@ -21,7 +23,7 @@ public class Context {
 
         T object = factory.createObject(implClass);
 
-        if (implClass.isAnnotationPresent(Singleton.class)) {
+        if (config.isSingleton(implClass)) {
             CACHE.put(target, object);
         }
 
