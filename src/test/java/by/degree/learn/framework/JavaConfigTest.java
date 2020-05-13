@@ -1,16 +1,19 @@
 package by.degree.learn.framework;
 
-import by.degree.learn.framework.test.TestComponent;
-import by.degree.learn.framework.test.TestMyComponent;
-import by.degree.learn.framework.test.TestPrimaryComponent;
-import by.degree.learn.framework.test.TestSingletonComponent;
+import by.degree.learn.framework.test.*;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class JavaConfigTest {
 
     JavaConfig config = new JavaConfig("by.degree.learn.framework.test");
+
+    @Test
+    void noComponentIsNotComponent() {
+        assertFalse(config.isComponent(NoComponent.class), "Class without @Component must be not treated as component");
+    }
 
     @Test
     void componentIsComponent() {
