@@ -1,6 +1,7 @@
 package by.degree.learn.framework;
 
 import by.degree.learn.framework.test.TestComponent;
+import by.degree.learn.framework.test.TestMyComponent;
 import by.degree.learn.framework.test.TestPrimaryComponent;
 import by.degree.learn.framework.test.TestSingletonComponent;
 import org.junit.jupiter.api.Test;
@@ -24,5 +25,10 @@ class JavaConfigTest {
     @Test
     void singletonIsComponent() {
         assertTrue(config.isComponent(TestSingletonComponent.class), "Class annotated with @Singleton must be treated as component");
+    }
+
+    @Test
+    void myComponentIsComponent() {
+        assertTrue(config.isComponent(TestMyComponent.class), "Class annotated with annotation with @Component must be treated as component");
     }
 }
