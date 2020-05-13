@@ -64,9 +64,7 @@ public class JavaConfig implements Config {
     public <T> Class<? extends T> lookupImplementationClass(Class<T> target) {
         Class<? extends T> implClass;
         if (target.isInterface()) {
-            var implementors = listImplementations(target).stream()
-                    .filter(this::isComponent)
-                    .collect(Collectors.toList());
+            var implementors = listImplementations(target);
 
             if (implementors.isEmpty()) {
                 throw new RuntimeException("Cannot instantiate " + target + ". There is no implementations.");
@@ -90,6 +88,11 @@ public class JavaConfig implements Config {
 
     @Override
     public <T> Collection<Class<? extends T>> listImplementations(Class<T> type) {
-        return reflections.getSubTypesOf(type);
+        return Stream.concat(
+                Stream.of(type),
+                reflections.getSubTypesOf(type).stream()
+        )
+                .filter(this::isComponent)
+                .collect(Collectors.toList());
     }
 }
