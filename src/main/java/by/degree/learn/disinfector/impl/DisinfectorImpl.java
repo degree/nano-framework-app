@@ -4,8 +4,8 @@ import by.degree.learn.disinfector.infrastructure.Announce;
 import by.degree.learn.disinfector.model.Disinfector;
 import by.degree.learn.disinfector.model.Enforcer;
 import by.degree.learn.disinfector.model.Room;
-import by.degree.learn.solid.framework.Inject;
-import by.degree.learn.solid.framework.Singleton;
+import by.degree.learn.nano.framework.Inject;
+import by.degree.learn.nano.framework.Singleton;
 
 @Singleton
 public class DisinfectorImpl implements Disinfector {

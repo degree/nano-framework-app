@@ -1,9 +1,9 @@
 package by.degree.learn.disinfector.impl;
 
 import by.degree.learn.disinfector.model.Enforcer;
-import by.degree.learn.solid.framework.InjectProperty;
-import by.degree.learn.solid.framework.PostConstruct;
-import by.degree.learn.solid.framework.Primary;
+import by.degree.learn.nano.framework.InjectProperty;
+import by.degree.learn.nano.framework.PostConstruct;
+import by.degree.learn.nano.framework.Primary;
 
 @Primary
 public class AngryEnforcer implements Enforcer {

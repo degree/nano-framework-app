@@ -1,7 +1,7 @@
 package by.degree.learn.disinfector.infrastructure;
 
-import by.degree.learn.solid.framework.Component;
-import by.degree.learn.solid.framework.ProxyConfigurer;
+import by.degree.learn.nano.framework.Component;
+import by.degree.learn.nano.framework.ProxyConfigurer;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
