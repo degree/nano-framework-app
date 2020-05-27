@@ -2,4 +2,4 @@ image: maven:3.6.3-jdk-8
 
 Test:
   script:
-    - mvn exec:java
+    - mvn compile exec:java
