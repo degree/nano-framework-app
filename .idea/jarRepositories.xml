@@ -4,12 +4,12 @@
     <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
-      <option name="url" value="https://maven.pd.apollon.de/repository/repo/" />
+      <option name="url" value="https://repo.maven.apache.org/maven2" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
-      <option name="url" value="https://repo.maven.apache.org/maven2" />
+      <option name="url" value="https://maven.pd.apollon.de/repository/repo/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />

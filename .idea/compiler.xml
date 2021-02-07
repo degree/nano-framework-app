@@ -10,7 +10,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="nano-framework-app" target="11" />
+      <module name=".mvn" target="1.5" />
+      <module name="nano-framework-app" target="15" />
       <module name="untitled" target="1.5" />
     </bytecodeTargetLevel>
   </component>
